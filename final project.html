@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welbodi na Gentri - Sierra Leone Health Hub</title>
+    <style>
+        /* Modern CSS Custom Properties (Theme Root) */
+        :root {
+            --sl-green: #00843D; /* Official SL Flag Green variant */
+            --sl-green-light: #e6f3eb;
+            --sl-blue: #0072C6;  /* Official SL Flag Blue variant */
+            --sl-blue-light: #e6f1f9;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --bg-light: #f8fafc;
+            --card-bg: #ffffff;
+            --accent-red: #e11d48;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.02);
+        }
+
+        /* Basic Reset & Typography */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Emergency Banner with animated alert icon */
+        .emergency-banner {
+            background: linear-gradient(90deg, var(--accent-red), #be123c);
+            color: white;
+            text-align: center;
+            padding: 12px 15px;
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .emergency-banner a {
+            color: white;
+            text-decoration: underline;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.15);
+            transition: var(--transition);
+        }
+
+        .emergency-banner a:hover {
+            background: rgba(255, 255, 255, 0.3);
+            text-decoration: none;
+        }
+
+        .alert-pulse {
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(255, 255, 255, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+
+        /* Header Navigation Styles */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .header-container {
+            max-width: 1050px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-symbol {
+            background: linear-gradient(135deg, var(--sl-green), #0a5c2c);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 18px;
+            box-shadow: 0 4px 6px -1px rgba(0, 132, 61, 0.2);
+        }
+
+        .logo-text h1 {
+            color: var(--text-dark);
+            font-size: 18px;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .logo-text p {
+            color: var(--sl-blue);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+        }
+
+        /* Desktop Navigation Links */
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 8px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        nav a:hover {
+            color: var(--sl-green);
+            background-color: var(--sl-green-light);
+        }
+
+        nav a.active {
+            color: var(--sl-white);
+            background-color: var(--sl-green);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-dark);
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* Main Container setup */
+        main {
+            flex: 1;
+            max-width: 1050px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* Language Toggle Switch Wrapper */
+        .lang-bar {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 25px;
+        }
+
+        .lang-btn {
+            background: var(--card-bg);
+            border: 1px solid #cbd5e1;
+            color: var(--text-dark);
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 700;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .lang-btn:hover {
+            border-color: var(--sl-blue);
+            color: var(--sl-blue);
+            background: var(--sl-blue-light);
+        }
+
+        /* Page Section Transitions */
+        .page-section {
+            display: none;
+            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .page-section.active-page {
+            display: block;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero graphical elements */
+        .hero {
+            background: linear-gradient(135deg, var(--sl-green), #045025);
+            color: white;
+            padding: 50px 30px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 35px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Diagonal background accent graphic for depth */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+        }
+
+        .hero h2 {
+            font-size: 32px;
+            margin-bottom: 12px;
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* Layout Grid */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        /* Elevated Card Designs */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #f1f5f9;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--sl-green-light);
+        }
+
+        .card-icon {
+            background-color: var(--sl-green-light);
+            color: var(--sl-green);
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 5px;
+        }
+
+        /* Icon variations */
+        .card:nth-child(2) .card-icon {
+            background-color: var(--sl-blue-light);
+            color: var(--sl-blue);
+        }
+
+        .card:nth-child(3) .card-icon {
+            background-color: #fef3c7;
+            color: #d97706;
+        }
+
+        .card h3 {
+            color: var(--text-dark);
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        /* Standard Text-Heavy View Blocks */
+        .text-content {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+        }
+
+        .text-content h2 {
+            color: var(--sl-green);
+            font-size: 24px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 12px;
+            font-weight: 800;
+        }
+
+        .text-content h3 {
+            margin: 24px 0 10px 0;
+            font-size: 18px;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .text-content p {
+            margin-bottom: 16px;
+            font-size: 15px;
+            color: #475569;
+        }
+
+        .disclaimer-box {
+            background-color: #fef2f2;
+            border-left: 4px solid var(--accent-red);
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-top: 25px;
+        }
+
+        .disclaimer-box h4 {
+            color: #991b1b;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .disclaimer-box p {
+            color: #7f1d1d;
+            font-size: 13px;
+            margin-bottom: 0;
+        }
+
+        /* Beautiful Footer */
+        footer {
+            background-color: var(--card-bg);
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 13px;
+            color: var(--text-light);
+            border-top: 1px solid #e2e8f0;
+            margin-top: auto;
+        }
+
+        /* Responsive calibrations */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            nav {
+                display: none;
+                width: 100%;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                background-color: var(--card-bg);
+                box-shadow: var(--shadow-lg);
+                border-bottom: 2px solid #e2e8f0;
+            }
+
+            nav.show {
+                display: block;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0;
+                padding: 10px 0;
+            }
+
+            nav a {
+                display: block;
+                padding: 14px 24px;
+                border-radius: 0;
+                border-bottom: 1px solid #f1f5f9;
+            }
+
+            .hero {
+                padding: 40px 20px;
+            }
+
+            .hero h2 {
+                font-size: 24px;
+            }
+
+            .text-content {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Emergency Line with pulsating indicator -->
+    <div class="emergency-banner">
+        <span class="alert-pulse"></span>
+        <span class="translatable" data-en="Emergency? Call Toll-Free:" data-kr="Emergency? Call Toll-Free:">Emergency? Call Toll-Free:</span>
+        <a href="tel:117">117</a>
+    </div>
+
+    <!-- Main Responsive Header -->
+    <header>
+        <div class="header-container">
+            <a href="#home" class="logo" onclick="navigateTo('home')">
+                <div class="logo-symbol">SL</div>
+                <div class="logo-text">
+                    <h1>Welbodi na Gentri</h1>
+                    <p>Health Information Hub</p>
+                </div>
+            </a>
+            
+            <button class="menu-toggle" id="menuBtn" onclick="toggleMenu()" aria-label="Toggle Navigation">☰</button>
+            
+            <nav id="navMenu">
+                <ul>
+                    <li><a href="#home" class="nav-link active" onclick="navigateTo('home')">Home</a></li>
+                    <li><a href="#services" class="nav-link" onclick="navigateTo('services')">Services</a></li>
+                    <li><a href="#mission" class="nav-link" onclick="navigateTo('mission')">Mission</a></li>
+                    <li><a href="#about" class="nav-link" onclick="navigateTo('about')">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main content frame -->
+    <main>
+        
+        <!-- Interactive Global Language Switcher -->
+        <div class="lang-bar">
+            <button class="lang-btn" id="langBtn" onclick="toggleLanguage()">
+                <!-- Minimal Earth/Language SVG Icon -->
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 0c2.5 0 4.5 4.5 4.5 10S14.5 22 12 22 7.5 17.5 7.5 12 9.5 2 12 2zm-10 10h20"></path></svg>
+                <span>Read na Krio</span>
+            </button>
+        </div>
+
+        <!-- ==========================================
+             HOME SECTION
+             ========================================== -->
+        <section id="home" class="page-section active-page">
+            <div class="hero">
+                <h2 class="translatable" data-en="Your Health, Your Wealth" data-kr="Yu Welbodi na Yu Gentri">Your Health, Your Wealth</h2>
+                <p class="translatable" data-en="Reliable, local health insights custom-tailored for Sierra Leonean families." data-kr="Klin health info wey go foh help ol we pipul dem na Salone.">Reliable, local health insights custom-tailored for Sierra Leonean families.</p>
+            </div>
+
+            <div class="grid-layout">
+                <!-- Card 1 -->
+                <div class="card">
+                    <div class="card-icon">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 21a9 9 0 0 1 0-18v18zM12 3a9 9 0 1 1 0 18V3zM12 8v8M8 12h8"></path></svg>
+                    </div>
+                    <h3><span class="translatable" data-en="Free Health Care Initiative" data-kr="Fri Tritment">Free Health Care Initiative</span></h3>
+                    <p class="translatable" data-en="Completely free clinical treatment is provided under government programs for pregnant women, breastfeeding mothers, and children under the age of 5 across public clinics." data-kr="Tritment na fri foh belo-uman, mama we de bres-fid, en pikin dem we no rich 5 yias na government clinic dem.">Completely free clinical treatment is provided under government programs for pregnant women, breastfeeding mothers, and children under the age of 5 across public clinics.</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card">
+                    <div class="card-icon">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    </div>
+                    <h3><span class="translatable" data-en="Malaria Intervention" data-kr="Malaria Protection">Malaria Intervention</span></h3>
+                    <p class="translatable" data-en="Malaria is fully preventable. Sleep under treated bed nets nightly, keep surrounding water from pooling, and head directly to a clinic for a checkup if fever starts." data-kr="Malaria na sick wey we kin stop. Slip ondane net, keep doti wata foh pull, en go clinic wantem if yu get fiva.">Malaria is fully preventable. Sleep under treated bed nets nightly, keep surrounding water from pooling, and head directly to a clinic for a checkup if fever starts.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="card">
+                    <div class="card-icon">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                    </div>
+                    <h3><span class="translatable" data-en="Clean Hygiene & Sanitation" data-kr="Bodi en Wata Klin">Clean Hygiene & Sanitation</span></h3>
+                    <p class="translatable" data-en="Prevent stomach sickness and cholera. Use running water and hand soap consistently, and purify drinking water with local chlorine treatments or boiling methods." data-kr="Avoid kolera. Use running wata en sop foh wash an, and treat or boil yu drink-wata to keep am safe.">Prevent stomach sickness and cholera. Use running water and hand soap consistently, and purify drinking water with local chlorine treatments or boiling methods.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SERVICES SECTION
+             ========================================== -->
+        <section id="services" class="page-section">
+            <div class="text-content">
+                <h2 class="translatable" data-en="Local Support Directories" data-kr="We Servis Dem">Local Support Directories</h2>
+                <p class="translatable" data-en="This informational portal is built to map out critical paths to national public healthcare offerings across our communities." data-kr="Dis website de show yu easy ways foh load up en contact local health centers na we contry.">This informational portal is built to map out critical paths to national public healthcare offerings across our communities.</p>
+                
+                <h3>
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8zM12 13a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"></path></svg>
+                    <span class="translatable" data-en="Health Post Directory Access" data-kr="Ospitul Finder">Health Post Directory Access</span>
+                </h3>
+                <p class="translatable" data-en="Information showing citizens the locations of Community Health Centers (CHCs) and referral clinics across major provincial towns." data-kr="Infomation wey go help yu find Community Health Centers (CHCs) en referral hospitals na ol regional areas.">Information showing citizens the locations of Community Health Centers (CHCs) and referral clinics across major provincial towns.</p>
+                
+                <h3>
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9zM13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                    <span class="translatable" data-en="Disease Awareness Updates" data-kr="Epidemic Alerts">Disease Awareness Updates</span>
+                </h3>
+                <p class="translatable" data-en="Access to clear protocols to manage seasonal threats, including Cholera prevention, Lassa fever identification, and clean community routines." data-kr="Ples foh view protocols foh clear out risk na community, lek Cholera or Lassa fever.">Access to clear protocols to manage seasonal threats, including Cholera prevention, Lassa fever identification, and clean community routines.</p>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             MISSION SECTION
+             ========================================== -->
+        <section id="mission" class="page-section">
+            <div class="text-content">
+                <h2 class="translatable" data-en="Our Vision & Goals" data-kr="We Mission">Our Vision & Goals</h2>
+                <p class="translatable" data-en="Our mission is simple: to expand healthcare literacy and information access to every citizen of Sierra Leone." data-kr="We mission na foh spread health knowledge na simple word dem to everybody na Sierra Leone.">Our mission is simple: to expand healthcare literacy and information access to every citizen of Sierra Leone.</p>
+                
+                <h3><span class="translatable" data-en="Eliminating Communication Barriers" data-kr="Pull Language Barrier">Eliminating Communication Barriers</span></h3>
+                <p class="translatable" data-en="We strive to provide simple, bilingual summaries of important medical guidelines so that language, reading barriers, or high data-costs do not stand in the way of safety." data-kr="We aim to deliver quick, light, and bilingual health info so data expense en vocabulary no block nobody foh protect deir self.">We strive to provide simple, bilingual summaries of important medical guidelines so that language, reading barriers, or high data-costs do not stand in the way of safety.</p>
+
+                <h3><span class="translatable" data-en="Supporting Local Infrastructure" data-kr="Supporting Local Infrastructure">Supporting Local Infrastructure</span></h3>
+                <p class="translatable" data-en="We support national health priorities set by the Ministry of Health by aligning our community-facing tips directly with national medical frameworks." data-kr="We program align foh support di main Ministry of Health activities and make sure say information reach ground floor level.">We support national health priorities set by the Ministry of Health by aligning our community-facing tips directly with national medical frameworks.</p>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             ABOUT SECTION
+             ========================================== -->
+        <section id="about" class="page-section">
+            <div class="text-content">
+                <h2 class="translatable" data-en="About the Initiative" data-kr="Bout We">About the Initiative</h2>
+                <p class="translatable" data-en="Welbodi na Gentri is an independent, non-commercial public health educational portal. Translating literally to 'Health is Wealth', our focus remains on providing clear information." data-kr="Welbodi na Gentri na free independent digital portal foh help explain health things na Salone. Di name mean say 'Health is Wealth'.">Welbodi na Gentri is an independent, non-commercial public health educational portal. Translating literally to "Health is Wealth", our focus remains on providing clear information.</p>
+                
+                <p class="translatable" data-en="By offering small, high-contrast, data-efficient content, we help ensure families from urban Freetown districts to rural provincial villages can navigate core medical resources easily." data-kr="We de try foh build lightweight tools foh make sure say we system de run fast foh people in distant villages en towns to read life-saving guidelines.">By offering small, high-contrast, data-efficient content, we help ensure families from urban Freetown districts to rural provincial villages can navigate core medical resources easily.</p>
+                
+                <div class="disclaimer-box">
+                    <h4 class="translatable" data-en="Important Medical Disclaimer" data-kr="Notice foh Every Person">Important Medical Disclaimer</h4>
+                    <p class="translatable" data-en="All details published on this page are intended exclusively for educational overview. They are not direct medical advice. Always consult with certified medical experts at an established health clinic for all diagnoses." data-kr="Information na dis site na foh learning purpose n0m0. Go to real hospital foh medical checking or treat.">All details published on this page are intended exclusively for educational overview. They are not direct medical advice. Always consult with certified medical experts at an established health clinic for all diagnoses.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>Welbodi na Gentri</strong> • Sierra Leone</p>
+        <p style="margin-top: 5px;" class="translatable" data-en="Keep our communities healthy and safe." data-kr="Keep we community safe en get gud health.">Keep our communities healthy and safe.</p>
+    </footer>
+
+    <!-- Script routing, hamburger menu, and state storage -->
+    <script>
+        // SPA Routing Logic mimicking separate page loading
+        function navigateTo(sectionId) {
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(sec => sec.classList.remove('active-page'));
+
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active-page');
+            }
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${sectionId}`) {
+                    link.classList.add('active');
+                }
+            });
+
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.remove('show');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Mobile Menu Trigger
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('show');
+        }
+
+        // Language Render Engine (English/Krio)
+        function applyLanguage(lang) {
+            const elements = document.querySelectorAll('.translatable');
+            const langBtnSpan = document.querySelector('#langBtn span');
+
+            elements.forEach(el => {
+                if (lang === 'kr' && el.dataset.kr) {
+                    el.textContent = el.dataset.kr;
+                } else if (lang === 'en' && el.dataset.en) {
+                    el.textContent = el.dataset.en;
+                }
+            });
+
+            if (langBtnSpan) {
+                langBtnSpan.textContent = (lang === 'en') ? 'Read na Krio' : 'Read na English';
+            }
+        }
+
+        // Local Storage State Management for language choices
+        function toggleLanguage() {
+            let currentLang = localStorage.getItem('welbodi_lang') || 'en';
+            let nextLang = (currentLang === 'en') ? 'kr' : 'en';
+            localStorage.setItem('welbodi_lang', nextLang);
+            applyLanguage(nextLang);
+        }
+
+        // Handle initialization and browser routing synchronization
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('welbodi_lang') || 'en';
+            applyLanguage(savedLang);
+
+            const hash = window.location.hash.substring(1);
+            if (hash && ['home', 'services', 'mission', 'about'].includes(hash)) {
+                navigateTo(hash);
+            }
+        });
+
+        // Sync updates on link hashes
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.substring(1);
+            if (hash && ['home', 'services', 'mission', 'about'].includes(hash)) {
+                navigateTo(hash);
+            }
+        });
+    </script>
+</body>
+</html>
